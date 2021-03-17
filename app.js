@@ -23,8 +23,12 @@ app.use(bodyParser.json())
 //Importar rutas
 var appRoutes = require ('./routes/app.routes');
 var usuarioRoutes = require ('./routes/usuario.routes');
+var hospitalesRoutes = require ('./routes/hospitales.routes');
+var medicosRoutes= require('./routes/medicos.routes');
 var loginRoutes= require('./routes/login.routes');
-
+var busquedaRoutes= require('./routes/busqueda.routes');
+var uploadRoutes= require('./routes/upload.routes');
+var imagenesRoutes= require('./routes/imagenes.routes');
 
 //Conexion a la base de datos
 mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err,res)=>{
@@ -37,7 +41,13 @@ mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err,res)=>{
 
 //Rutas de app.rouetes- minddleware
 app.use('/usuario',usuarioRoutes);
+app.use('/hospitales',hospitalesRoutes);
+app.use('/medicos',medicosRoutes);
 app.use('/login',loginRoutes);
+app.use('/busqueda',busquedaRoutes);
+app.use('/upload',uploadRoutes);
+app.use('/img',imagenesRoutes);
+
 app.use('/',appRoutes);
 
 

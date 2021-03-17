@@ -109,7 +109,7 @@ app.put('/:id',mdAutenticacion.verificaToken,(req,res)=>{
 
 //POST: CREAR NUEVO USUARIO, cuando creamos el usuario,
 //alli debemos encriptar la contraseña
-app.post('/',mdAutenticacion.verificaToken , (req, res) => {
+app.post('/' , mdAutenticacion.verificaToken ,(req, res) => {
 
     var body = req.body
     //definimos que mandamos a la base de datos
@@ -147,7 +147,7 @@ app.post('/',mdAutenticacion.verificaToken , (req, res) => {
 
 //ELIMINAR USUARIO POR EL ID
 
-app.delete('/:id',mdAutenticacion.verificaToken,(req,res)=>{
+app.delete('/:id',(req,res)=>{
     //obteniendo el id
     var id= req.params.id;
 
