@@ -22,7 +22,9 @@ var usuarioSchema = new Schema({
     password: {type: String, required: [true, 'La contraseña es necesario'] },
     img: {type: String, required: false},
     //enum: poner la validacion de roles
-    role: {type: String, required: true, default: 'USER_ROLE', enum: rolesValidos}
+    role: {type: String, required: true, default: 'USER_ROLE', enum: rolesValidos},
+    //por defecto es false en caso de no especificar
+    google: {type:Boolean, default: false}
 
 });
 
