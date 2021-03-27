@@ -213,26 +213,25 @@ function obtenerMenu(ROLE){
           icono: 'mdi mdi-gauge',
           submenu:[
             { titulo: 'Dashboard', url: '/dashboard'},
-            { titulo: 'ProgressBar', url: '/progress'},
-            { titulo: 'Graficas', url: '/graficas1'},
-            { titulo: 'Promesas', url: '/promesas'},
-            { titulo: 'RXJS', url: '/rxjs'}
           ]
         },
         {
-          titulo: 'Mantenimientos',
+          titulo: 'Procedimientos',
           icono: 'mdi mdi-folder-lock-open',
           submenu: [
             //{titulo: 'Usuarios', url:'/usuarios'},
-            {titulo: 'Hospitales', url:'/hospitales'},
-            {titulo: 'Medicos', url: '/medicos'}
+            //{titulo: 'Enviar solicitudes', url: '/medicos'}
           ]
         }
       ];
       if(ROLE === 'ADMIN_ROLE'){
           //Si es admin vera esta opcion como primera opcion
           //Menu 1 -> posicion ya que tenemos 2, 0:principal 1:matenimiento
-          menu[1].submenu.unshift({titulo: 'Usuarios', url:'/usuarios'});
+          menu[1].submenu.unshift({titulo: 'Usuarios', url:'/usuarios'});         
+          menu[1].submenu.unshift({titulo: 'Solicitudes recibidas', url:'/recepcion'});  
+      }
+      if(ROLE === 'USER_ROLE'){
+        menu[1].submenu.unshift({titulo: 'Enviar Solicitudes', url:'/medicos'});
       }
 
     return menu;

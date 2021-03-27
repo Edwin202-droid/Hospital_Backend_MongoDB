@@ -77,7 +77,7 @@ app.put('/:id',mdAutenticacion.verificaToken,(req,res)=>{
     var id = req.params.id;
     var body =req.body
 
-    //verificar que el medico exista con el id
+    //verificar que el medico exista con el id 
     Medico.findById( id,(err,medico)=>{
         if(err){ 
             return response.status(500).json({
@@ -96,6 +96,7 @@ app.put('/:id',mdAutenticacion.verificaToken,(req,res)=>{
         //si pasa los dos if, el hospital existe.
 
         medico.nombre= body.nombre;
+        medico.descripcion=body.descripcion;
         //actualizar el usuario que lo modifico
         medico.usuario= req.usuario._id;
         medico.hospital= body.hospital;
@@ -122,6 +123,7 @@ app.post('/',mdAutenticacion.verificaToken , (req, res) => {
     var body = req.body
     var medico= new Medico({
         nombre: body.nombre,
+        descripcion:body.descripcion,
         usuario:req.usuario._id,
         hospital:body.hospital
     });
@@ -129,7 +131,7 @@ app.post('/',mdAutenticacion.verificaToken , (req, res) => {
     //para guardar
     medico.save( (err, medicoGuardado) =>{
         if(err){ 
-            return response.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 mensaje:'Error  al crear medico',
                 errors: err
