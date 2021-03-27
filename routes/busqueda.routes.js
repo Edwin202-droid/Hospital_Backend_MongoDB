@@ -39,7 +39,7 @@ app.get('/coleccion/:tabla/:busqueda', (req,res)=>{
     }
     //mandaron al correcto
     promesa.then (data =>{
-        res.status(400).json({
+        res.status(200).json({
             ok:true,
             //[] el reesultado de esa busqueda.
             [tabla]: data
@@ -83,7 +83,7 @@ function buscarHospitales (busqueda, regex){
 
     return new Promise ((resolve, reject)=>{
         Hospital.find({nombre:regex})
-                .populate('usuario','nombre email') 
+                .populate('usuario','nombre email img') 
                 .exec((err, hospitales)=>{
                     if(err){
                         reject('Error al cargar');
@@ -98,7 +98,7 @@ function buscarMedicos(busqueda, regex){
 
     return new Promise ((resolve, reject)=>{
         Medico.find({nombre:regex})
-                .populate('usuario', 'nombre email')
+                .populate('usuario', 'nombre email img')
                 .populate('hospital')
                 .exec( (err, medicos)=>{
                      if(err){
@@ -115,7 +115,7 @@ function buscarUsuario(busqueda, regex){
 
     return new Promise ((resolve, reject)=>{
                             //nombres de las propiedades que quiero buscar
-        Usuario.find({},'nombre email role').or([ {'nombre': regex}, {'email':regex} ])
+        Usuario.find({},'nombre email role img').or([ {'nombre': regex}, {'email':regex} ])
                       .exec((err,usuarios)=>{
                         if(err){
                             reject('Error al cargar usuarios');

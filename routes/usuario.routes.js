@@ -17,9 +17,13 @@ var mdAutenticacion = require('../middlewares/autenticacion');
 
 app.get('/',(request, response, next) =>{
 
+    var desde= request.query.desde || 0;
+    desde=Number(desde);
     //find() => obetenemos todo
     //{} exec => filtramos la consulta
-    Usuario.find({ },  'nombre email img role')
+    Usuario.find({ },  'nombre email img role google')
+            .skip(desde)
+            .limit(5)
             .exec(
         (err,usuarios) => {
         if(err){ 
@@ -32,11 +36,15 @@ app.get('/',(request, response, next) =>{
         //mandar respuestas a solicitudes. 200= todo correcto
         //obtenemos la info de nuestra base de datos y se llena con las condiciones
         //del usuario.model
-        response.status(200).json({
-        ok: true,
-        mensaje:'Get usuarios',
-        usuarios
-        });
+
+        Usuario.count({}, (err,conteo)=>{
+            response.status(200).json({
+                ok: true,
+                mensaje:'Get usuarios',
+                usuarios,
+                total:conteo
+                });
+        })
 
     })
 
@@ -48,7 +56,7 @@ app.get('/',(request, response, next) =>{
 
 
 //PUT: ACTUALIZAR DATOS, localhost/usuario/usuario.id
-app.put('/:id',mdAutenticacion.verificaToken,(req,res)=>{
+app.put('/:id',[mdAutenticacion.verificaToken, mdAutenticacion.verificaADMIN_ROLE_o_mismoUsuario],(req,res)=>{
 
     var id = req.params.id;
     var body =req.body
@@ -109,7 +117,7 @@ app.put('/:id',mdAutenticacion.verificaToken,(req,res)=>{
 
 //POST: CREAR NUEVO USUARIO, cuando creamos el usuario,
 //alli debemos encriptar la contraseña
-app.post('/' , mdAutenticacion.verificaToken ,(req, res) => {
+app.post('/' ,(req, res) => {
 
     var body = req.body
     //definimos que mandamos a la base de datos
@@ -126,7 +134,7 @@ app.post('/' , mdAutenticacion.verificaToken ,(req, res) => {
     //para guardar
     usuario.save( (err, usuarioGuardado) =>{
         if(err){ 
-            return response.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 mensaje:'Error  al crear usuario',
                 errors: err
@@ -147,7 +155,7 @@ app.post('/' , mdAutenticacion.verificaToken ,(req, res) => {
 
 //ELIMINAR USUARIO POR EL ID
 
-app.delete('/:id',(req,res)=>{
+app.delete('/:id',[mdAutenticacion.verificaToken, mdAutenticacion.verificaADMIN_ROLE_o_mismoUsuario],(req,res)=>{
     //obteniendo el id
     var id= req.params.id;
 

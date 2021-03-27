@@ -3,7 +3,7 @@
 MONGODB, usando Mongoose
 
 ```
-npm instal
+npm install
 ```
 
 ## Login-DEMO
